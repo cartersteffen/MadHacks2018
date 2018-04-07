@@ -85,19 +85,19 @@ public class TwitterAPIHandler {
 	 * @return The OATH token returned
 	 * @throws Exception
 	 */
-	private static String authenticate() throws Exception {
+	private static JSONObject postRequest(String url, String POST_PARAMS, String encoding) throws Exception {
 
-			String url = "https://api.twitter.com/oauth2/token";
+			
 			URL obj = new URL(url);
 			HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
-			final String POST_PARAMS = "grant_type=client_credentials";
 			
 			//add reuqest header
 			con.setRequestMethod("POST");
 			con.setRequestProperty("User-Agent", USER_AGENT);
 			con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-			String encoding = getEncodedKeys();
+			
+			
 			con.setRequestProperty  ("Authorization", "Basic " + encoding);
 			
 			//String urlParameters = "sn=C02G8416DRJM&cn=&locale=&caller=&num=12345";
@@ -126,14 +126,28 @@ public class TwitterAPIHandler {
 			
 			//print result
 			//System.out.println(response.toString());
-			JSONObject myResponse = new JSONObject(response.toString());
-			String token = myResponse.getString("access_token");
+			
 	        //System.out.println("result after Reading JSON Response");
 			//System.out.println();
 	        //System.out.println(token);
-	        return token;
+			JSONObject myResponse = new JSONObject(response.toString());
+	        return myResponse;
 
 		}
+	
+	private static String authenticate() throws Exception {
+		String url = "https://api.twitter.com/oauth2/token";
+		final String POST_PARAMS = "grant_type=client_credentials";
+		String encoding = getEncodedKeys();
+		JSONObject value = postRequest(url, POST_PARAMS, encoding);
+		
+		
+		String token = value.getString("access_token");
+		
+		return token;
+	}
+	
+	
 		
 		static String getEncodedKeys() {
 		    String consumerKey =  "arKJFzlJIw8yhgcpvsdSyUmIS";
