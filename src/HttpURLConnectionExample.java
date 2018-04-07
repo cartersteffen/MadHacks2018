@@ -3,7 +3,8 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Base64;
+import java.util.*;
+import org.json.JSONObject; 
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -17,7 +18,8 @@ public class HttpURLConnectionExample {
 	    System.out.println(getEncodedKeys());
 		HttpURLConnectionExample http = new HttpURLConnectionExample();
 	
-	    http.sendPost();
+	    String bearer = http.sendPost();
+	    http.sendGet(bearer);
 		//System.out.println("Testing 1 - Send Http GET request");
 		//http.sendGet();*/
 		
@@ -25,7 +27,7 @@ public class HttpURLConnectionExample {
 	}
 	
 	// HTTP GET request
-		private void sendGet() throws Exception {
+		private void sendGet(String token) throws Exception {
 		    
 			String url = "https://twitter.com/search?q=twitterdev%20new%20premium";
 			
@@ -57,7 +59,7 @@ public class HttpURLConnectionExample {
 
 		}
 		
-		private void sendPost() throws Exception {
+		private String sendPost() throws Exception {
 
 			String url = "https://api.twitter.com/oauth2/token";
 			URL obj = new URL(url);
@@ -98,6 +100,12 @@ public class HttpURLConnectionExample {
 			
 			//print result
 			System.out.println(response.toString());
+			JSONObject myResponse = new JSONObject(response.toString());
+			String token = myResponse.getString("access_token");
+	        //System.out.println("result after Reading JSON Response");
+			System.out.println();
+	        System.out.println(token);
+	        return token;
 
 		}
 		
