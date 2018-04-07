@@ -20,7 +20,9 @@ public class TwitterAPIHandler {
 	    System.out.println(getEncodedKeys());
 	
 	    String token = authenticate();
-	    for( String s:searchTwitter("nasa",token) )
+	    ArrayList<String> tweets = searchTwitter("nasa",token);
+	    System.out.println(tweets.size());
+		for( String s:tweets)
 	    	System.out.println(s);
 	}
 
@@ -32,8 +34,8 @@ public class TwitterAPIHandler {
 	 */
 		static ArrayList<String> searchTwitter(String query, String authenticationToken) throws Exception {
 		    
-			String url = "https://api.twitter.com/1.1/search/tweets.json?lang=en&count=100&q="+query;
-			
+			String url = "https://api.twitter.com/1.1/search/tweets.json?lang=en&count=80&q="+query+"-filter:retweets";
+
 			URL obj = new URL(url);
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
@@ -70,7 +72,7 @@ public class TwitterAPIHandler {
 			String prettyJsonString = gson.toJson(je);
 			*/
 			ArrayList<String> tweetTexts = new ArrayList<>();
-			//System.out.println(myResponse.toString(4));
+			// System.out.println(myResponse.toString(4));
 			JSONArray tweets = myResponse.getJSONArray("statuses");
 			for(int i = 0; i < tweets.length(); i++) {
 				JSONObject tweet = tweets.getJSONObject(i);
