@@ -39,7 +39,7 @@ public class HttpURLConnectionExample {
 
 			//add request header
 			con.setRequestProperty("User-Agent", USER_AGENT);
-
+			con.setRequestProperty("Authorization", "Bearer "+ token);
 			int responseCode = con.getResponseCode();
 			System.out.println("\nSending 'GET' request to URL : " + url);
 			System.out.println("Response Code : " + responseCode);
