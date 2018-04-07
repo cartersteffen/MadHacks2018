@@ -9,7 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.Base64;
 import javax.net.ssl.HttpsURLConnection;
-import org.json.JSONObject;
 
 public class TwitterAPIHandler {
 
