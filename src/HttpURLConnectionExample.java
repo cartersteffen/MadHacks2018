@@ -3,10 +3,9 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.*;
-import org.json.JSONObject; 
-
+import java.util.Base64;
 import javax.net.ssl.HttpsURLConnection;
+import org.json.JSONObject;
 
 public class HttpURLConnectionExample {
 
@@ -53,9 +52,8 @@ public class HttpURLConnectionExample {
 				response.append(inputLine);
 			}
 			in.close();
-
-			//print result
-			//System.out.println(response.toString());
+			System.out.println(response.toString());
+			
 
 		}
 		
