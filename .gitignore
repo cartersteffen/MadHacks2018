@@ -1,0 +1,3 @@
+*.class
+.classPath
+java-json

@@ -85,24 +85,22 @@ public class TwitterAPIHandler {
 	 * @return The OATH token returned
 	 * @throws Exception
 	 */
-	private static JSONObject postRequest(String url, String POST_PARAMS, Map<String,String> map) throws Exception {
+
+	private static JSONObject postRequest(String url, String POST_PARAMS, Map<String, String> headers) throws Exception {
 
 			
 			URL obj = new URL(url);
 			HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
-			
+			for(String key:headers.keySet()) {
+			    con.setRequestProperty(key, headers.get(key));
+			}
 			//add reuqest header
-			con.setRequestMethod("POST");
+			/*con.setRequestMethod("POST");
 			con.setRequestProperty("User-Agent", USER_AGENT);
 			con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 			
-			
-			//con.setRequestProperty  ("Authorization", "Basic " + encoding);
-			for(String key:map.keySet()) {
-				con.setRequestProperty(key, map.get(key));
-			}
-			//String urlParameters = "sn=C02G8416DRJM&cn=&locale=&caller=&num=12345";
+*/
 			
 			// Send post request
 			con.setDoOutput(true);
