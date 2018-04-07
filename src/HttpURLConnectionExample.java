@@ -4,7 +4,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
-import org.json.JSONObject; 
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 import java.util.Base64;
 import javax.net.ssl.HttpsURLConnection;
 import org.json.JSONObject;
@@ -30,7 +32,7 @@ public class HttpURLConnectionExample {
 	// HTTP GET request
 		private void sendGet(String token) throws Exception {
 		    
-			String url = "https://api.twitter.com/1.1/search/tweets.json?q=twitterdev%20new%20premium";
+			String url = "https://api.twitter.com/1.1/search/tweets.json?q=nasa";
 			
 			URL obj = new URL(url);
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -67,9 +69,13 @@ public class HttpURLConnectionExample {
 			JsonElement je = jp.parse(uglyJSONString);
 			String prettyJsonString = gson.toJson(je);
 			*/
-			System.out.println(myResponse.toString(4));
-
-
+			
+			//System.out.println(myResponse.toString(4));
+			JSONArray tweets = myResponse.getJSONArray("statuses");
+			for(int i = 0; i < tweets.length(); i++) {
+				JSONObject tweet = tweets.getJSONObject(i);
+				System.out.println(tweet.getString("text"));
+			}
 		}
 		
 		private String sendPost() throws Exception {
