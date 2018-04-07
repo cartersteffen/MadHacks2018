@@ -85,7 +85,7 @@ public class TwitterAPIHandler {
 	 * @return The OATH token returned
 	 * @throws Exception
 	 */
-	private static JSONObject postRequest(String url, String POST_PARAMS, String encoding) throws Exception {
+	private static JSONObject postRequest(String url, String POST_PARAMS, Map<String,String> map) throws Exception {
 
 			
 			URL obj = new URL(url);
@@ -98,8 +98,10 @@ public class TwitterAPIHandler {
 			con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 			
 			
-			con.setRequestProperty  ("Authorization", "Basic " + encoding);
-			
+			//con.setRequestProperty  ("Authorization", "Basic " + encoding);
+			for(String key:map.keySet()) {
+				con.setRequestProperty(key, map.get(key));
+			}
 			//String urlParameters = "sn=C02G8416DRJM&cn=&locale=&caller=&num=12345";
 			
 			// Send post request
@@ -136,10 +138,12 @@ public class TwitterAPIHandler {
 		}
 	
 	private static String authenticate() throws Exception {
+		TreeMap<String, String> map = new TreeMap<String, String>();
 		String url = "https://api.twitter.com/oauth2/token";
-		final String POST_PARAMS = "grant_type=client_credentials";
-		String encoding = getEncodedKeys();
-		JSONObject value = postRequest(url, POST_PARAMS, encoding);
+		String POST_PARAMS = "grant_type=client_credentials";
+		String encoding = "Basic " + getEncodedKeys();
+		map.put("Authorization", encoding);
+		JSONObject value = postRequest(url, POST_PARAMS, map);
 		
 		
 		String token = value.getString("access_token");
@@ -147,7 +151,10 @@ public class TwitterAPIHandler {
 		return token;
 	}
 	
-	
+	private static void wordCloud() throws Exception {
+		TreeMap<String, String> map = new TreeMap<String, String>();
+		//map.put();
+	}
 		
 		static String getEncodedKeys() {
 		    String consumerKey =  "arKJFzlJIw8yhgcpvsdSyUmIS";
