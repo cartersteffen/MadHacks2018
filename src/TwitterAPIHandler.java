@@ -108,9 +108,9 @@ public class TwitterAPIHandler {
 			wr.close();
 
 			int responseCode = con.getResponseCode();
-			System.out.println("\nSending 'POST' request to URL : " + url);
+			//System.out.println("\nSending 'POST' request to URL : " + url);
 			//System.out.println("Post parameters : " + urlParameters);
-			System.out.println("Response Code : " + responseCode);
+			//System.out.println("Response Code : " + responseCode);
 
 			BufferedReader in = new BufferedReader(
 			        new InputStreamReader(con.getInputStream()));
@@ -123,12 +123,12 @@ public class TwitterAPIHandler {
 			in.close();
 			
 			//print result
-			System.out.println(response.toString());
+			//System.out.println(response.toString());
 			JSONObject myResponse = new JSONObject(response.toString());
 			String token = myResponse.getString("access_token");
 	        //System.out.println("result after Reading JSON Response");
-			System.out.println();
-	        System.out.println(token);
+			//System.out.println();
+	        //System.out.println(token);
 	        return token;
 
 		}
