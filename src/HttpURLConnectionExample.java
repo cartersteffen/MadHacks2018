@@ -9,6 +9,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class HttpURLConnectionExample {
 
 	private final String USER_AGENT = "Mozilla/5.0";
+	private final String ACCESS_TOKEN = "982650248509247489-LcCQhQMyW9fSwQZSxhYamxGIvUxcFIP";
 
 	public static void main(String[] args) throws Exception {
 
