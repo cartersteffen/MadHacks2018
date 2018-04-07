@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.*;
 import org.json.JSONObject; 
 
+
 import javax.net.ssl.HttpsURLConnection;
 
 public class HttpURLConnectionExample {
@@ -29,7 +30,7 @@ public class HttpURLConnectionExample {
 	// HTTP GET request
 		private void sendGet(String token) throws Exception {
 		    
-			String url = "https://twitter.com/search?q=twitterdev%20new%20premium";
+			String url = "https://api.twitter.com/1.1/search/tweets.json?q=twitterdev%20new%20premium";
 			
 			URL obj = new URL(url);
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -39,7 +40,8 @@ public class HttpURLConnectionExample {
 
 			//add request header
 			con.setRequestProperty("User-Agent", USER_AGENT);
-
+			con.setRequestProperty  ("Authorization", "Bearer " + token);
+			
 			int responseCode = con.getResponseCode();
 			System.out.println("\nSending 'GET' request to URL : " + url);
 			System.out.println("Response Code : " + responseCode);
@@ -55,7 +57,17 @@ public class HttpURLConnectionExample {
 			in.close();
 
 			//print result
-			//System.out.println(response.toString());
+			JSONObject myResponse = new JSONObject(response.toString());
+			//String tweets = myResponse.getString("statuses");
+			//JsonWriter write = new JsonWriter();
+			//String niceFormattedJson = JSONWriter.formatJson(tweets);
+			/**
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+			JsonParser jp = new JsonParser();
+			JsonElement je = jp.parse(uglyJSONString);
+			String prettyJsonString = gson.toJson(je);
+			*/
+			System.out.println(myResponse.toString(4));
 
 		}
 		
