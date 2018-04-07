@@ -5,9 +5,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
 import org.json.JSONObject; 
-
-
+import java.util.Base64;
 import javax.net.ssl.HttpsURLConnection;
+import org.json.JSONObject;
 
 public class HttpURLConnectionExample {
 
@@ -40,8 +40,8 @@ public class HttpURLConnectionExample {
 
 			//add request header
 			con.setRequestProperty("User-Agent", USER_AGENT);
-			con.setRequestProperty  ("Authorization", "Bearer " + token);
-			
+
+			con.setRequestProperty("Authorization", "Bearer "+ token);
 			int responseCode = con.getResponseCode();
 			System.out.println("\nSending 'GET' request to URL : " + url);
 			System.out.println("Response Code : " + responseCode);
@@ -68,6 +68,7 @@ public class HttpURLConnectionExample {
 			String prettyJsonString = gson.toJson(je);
 			*/
 			System.out.println(myResponse.toString(4));
+
 
 		}
 		
