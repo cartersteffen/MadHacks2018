@@ -3,35 +3,33 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.*;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
+import java.util.Arrays;
 import java.util.Base64;
 import javax.net.ssl.HttpsURLConnection;
 import org.json.JSONObject;
 
-public class TwitterAPIHandler {
+public class HttpURLConnectionExampleCopy {
 
 	private final String USER_AGENT = "Mozilla/5.0";
+	private final String ACCESS_TOKEN = "982650248509247489-LcCQhQMyW9fSwQZSxhYamxGIvUxcFIP";
 
 	public static void main(String[] args) throws Exception {
 	    
 	    System.out.println(getEncodedKeys());
+		HttpURLConnectionExampleCopy http = new HttpURLConnectionExampleCopy();
 	
-	    String token = sendPost();
-	    searchTwitter("nasa",token);
-	}
+	    String bearer = http.sendPost();
+	    http.sendGet("nasa", bearer);
+		//System.out.println("Testing 1 - Send Http GET request");
+		//http.sendGet();*/
+		
 
-	/**
-	 * Http GET request to twitter api to search for a query
-	 * @param authenticationToken OATH token used to authenticate request
-	 * @return
-	 * @throws Exception
-	 */
-		static ArrayList<String> searchTwitter(String query, String authenticationToken) throws Exception {
-		    
-			String url = "https://api.twitter.com/1.1/search/tweets.json?q="+query;
+	}
+	
+	// HTTP GET request
+		private void sendGet(String query, String token) throws Exception {
+		    System.out.println("Test2");
+			String url = "https://api.twitter.com/1.1/search/tweets.json?q=query";
 			
 			URL obj = new URL(url);
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -41,8 +39,7 @@ public class TwitterAPIHandler {
 
 			//add request header
 			con.setRequestProperty("User-Agent", USER_AGENT);
-
-			con.setRequestProperty("Authorization", "Bearer "+ authenticationToken);
+			con.setRequestProperty("Authorization", "Bearer "+ token);
 			int responseCode = con.getResponseCode();
 			System.out.println("\nSending 'GET' request to URL : " + url);
 			System.out.println("Response Code : " + responseCode);
@@ -56,34 +53,15 @@ public class TwitterAPIHandler {
 				response.append(inputLine);
 			}
 			in.close();
+			JSONObject tweets = new JSONObject(response);
+			System.out.println(Arrays.toString(JSONObject.getNames(tweets)));
+			System.out.println(response.toString());
+	         System.out.println("test1");
+	         System.out.println(url);
 
-			//print result
-			JSONObject myResponse = new JSONObject(response.toString());
-			//String tweets = myResponse.getString("statuses");
-			//JsonWriter write = new JsonWriter();
-			//String niceFormattedJson = JSONWriter.formatJson(tweets);
-			/**
-			Gson gson = new GsonBuilder().setPrettyPrinting().create();
-			JsonParser jp = new JsonParser();
-			JsonElement je = jp.parse(uglyJSONString);
-			String prettyJsonString = gson.toJson(je);
-			*/
-			
-			//System.out.println(myResponse.toString(4));
-			JSONArray tweets = myResponse.getJSONArray("statuses");
-			for(int i = 0; i < tweets.length(); i++) {
-				JSONObject tweet = tweets.getJSONObject(i);
-				System.out.println(tweet.getString("text"));
-			}
 		}
-
-	/**
-	 * Sends a POST request to the url with the access keys
-	 * @return The OATH token returned
-	 * @throws Exception
-	 */
-	private String authenticate() throws Exception {
-
+		
+		private String sendPost() throws Exception {
 			String url = "https://api.twitter.com/oauth2/token";
 			URL obj = new URL(url);
 			HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
