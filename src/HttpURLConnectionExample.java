@@ -13,13 +13,13 @@ import org.json.JSONObject;
 
 public class TwitterAPIHandler {
 
-	private final String USER_AGENT = "Mozilla/5.0";
+	private static final String USER_AGENT = "Mozilla/5.0";
 
 	public static void main(String[] args) throws Exception {
 	    
 	    System.out.println(getEncodedKeys());
 	
-	    String token = sendPost();
+	    String token = authenticate();
 	    searchTwitter("nasa",token);
 	}
 
@@ -68,13 +68,14 @@ public class TwitterAPIHandler {
 			JsonElement je = jp.parse(uglyJSONString);
 			String prettyJsonString = gson.toJson(je);
 			*/
-			
+			ArrayList<String> tweetTexts = new ArrayList<>();
 			//System.out.println(myResponse.toString(4));
 			JSONArray tweets = myResponse.getJSONArray("statuses");
 			for(int i = 0; i < tweets.length(); i++) {
 				JSONObject tweet = tweets.getJSONObject(i);
-				System.out.println(tweet.getString("text"));
+				tweetTexts.add(tweet.getString("text"));
 			}
+			return tweetTexts;
 		}
 
 	/**
@@ -82,7 +83,7 @@ public class TwitterAPIHandler {
 	 * @return The OATH token returned
 	 * @throws Exception
 	 */
-	private String authenticate() throws Exception {
+	private static String authenticate() throws Exception {
 
 			String url = "https://api.twitter.com/oauth2/token";
 			URL obj = new URL(url);
