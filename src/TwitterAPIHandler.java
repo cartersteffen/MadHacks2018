@@ -20,9 +20,11 @@ public class TwitterAPIHandler {
 	
 	    String token = authenticate();
 	    ArrayList<String> tweets = searchTwitter("nasa",token);
+	    
 	    System.out.println(tweets.size());
-		for( String s:tweets)
-	    	System.out.println(s);
+	    wordCloud("bat cat cat cat cat rat rat rat rat mat mat mat");
+		/*for( String s:tweets)
+	    	System.out.println(s);*/
 	}
 
 	/**
@@ -149,9 +151,15 @@ public class TwitterAPIHandler {
 		return token;
 	}
 	
-	private static void wordCloud() throws Exception {
+	private static String wordCloud(String words) throws Exception {
+	    String url = "https://wordcloudservice.p.mashape.com/generate_wc";
 		TreeMap<String, String> map = new TreeMap<String, String>();
-		//map.put();
+		map.put("Content-Type","application/json");
+		map.put("Accept","application/json");
+		map.put("X-Mashape-Key", "3abWH3g9k7msh4H53vhImfzYWCwhp1FMOvAjsnkvDvXCI38GpB");
+		String POST_PARAMS = "\"{\\\"f_type\\\":\\\"png\\\",\\\"width\\\":800,\\\"height\\\":500,\\\"s_max\\\":\\\"7\\\",\\\"s_min\\\":\\\"1\\\",\\\"f_min\\\":1,\\\"r_color\\\":\\\"TRUE\\\",\\\"r_order\\\":\\\"TRUE\\\",\\\"s_fit\\\":\\\"FALSE\\\",\\\"fixed_asp\\\":\\\"TRUE\\\",\\\"rotate\\\":\\\"TRUE\\\",\\\"textblock\\\":"+words+"}\"";
+		postRequest(url, POST_PARAMS, map);
+		return "";
 	}
 		
 		static String getEncodedKeys() {
