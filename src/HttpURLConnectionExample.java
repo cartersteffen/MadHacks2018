@@ -3,6 +3,7 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Base64;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -12,18 +13,19 @@ public class HttpURLConnectionExample {
 	private final String ACCESS_TOKEN = "982650248509247489-LcCQhQMyW9fSwQZSxhYamxGIvUxcFIP";
 
 	public static void main(String[] args) throws Exception {
-
-		HttpURLConnectionExample http = new HttpURLConnectionExample();
-
-		System.out.println("Testing 1 - Send Http GET request");
-		http.sendGet();
+	    
+	    System.out.println(getEncodedKeys());
+		//HttpURLConnectionExample http = new HttpURLConnectionExample();
+	
+		//System.out.println("Testing 1 - Send Http GET request");
+		//http.sendGet();*/
 		
 
 	}
 	
 	// HTTP GET request
 		private void sendGet() throws Exception {
-
+		    
 			String url = "https://twitter.com/search?q=twitterdev%20new%20premium";
 			
 			URL obj = new URL(url);
@@ -52,5 +54,13 @@ public class HttpURLConnectionExample {
 			//print result
 			//System.out.println(response.toString());
 
+		}
+		
+		static String getEncodedKeys() {
+		    String consumerKey =  "arKJFzlJIw8yhgcpvsdSyUmIS";
+		    String consumerSecretKey = "YFkCOJBF5ADIljXGN1ZlZNpi91i2c2Sv8AacZPYJqQuBbifFjO\r\n";
+		    String concatenation = consumerKey + ":" +consumerSecretKey;
+		    byte [] encodedBytes = Base64.getEncoder().encode(concatenation.getBytes());
+		    return new String(encodedBytes);
 		}
 }
