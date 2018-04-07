@@ -15,8 +15,9 @@ public class HttpURLConnectionExample {
 	public static void main(String[] args) throws Exception {
 	    
 	    System.out.println(getEncodedKeys());
-		//HttpURLConnectionExample http = new HttpURLConnectionExample();
+		HttpURLConnectionExample http = new HttpURLConnectionExample();
 	
+	    http.sendPost();
 		//System.out.println("Testing 1 - Send Http GET request");
 		//http.sendGet();*/
 		
@@ -66,7 +67,9 @@ public class HttpURLConnectionExample {
 			con.setRequestMethod("POST");
 			con.setRequestProperty("User-Agent", USER_AGENT);
 			con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-
+			String encoding = getEncodedKeys();
+			con.setRequestProperty  ("Authorization", "Basic " + encoding);
+			
 			String urlParameters = "sn=C02G8416DRJM&cn=&locale=&caller=&num=12345";
 			
 			// Send post request
