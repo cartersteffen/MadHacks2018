@@ -20,7 +20,8 @@ public class TwitterAPIHandler {
 	    System.out.println(getEncodedKeys());
 	
 	    String token = authenticate();
-	    searchTwitter("nasa",token);
+	    for( String s:searchTwitter("nasa",token) )
+	    	System.out.println(s);
 	}
 
 	/**
@@ -31,7 +32,7 @@ public class TwitterAPIHandler {
 	 */
 		static ArrayList<String> searchTwitter(String query, String authenticationToken) throws Exception {
 		    
-			String url = "https://api.twitter.com/1.1/search/tweets.json?q="+query;
+			String url = "https://api.twitter.com/1.1/search/tweets.json?lang=en&count=100&q="+query;
 			
 			URL obj = new URL(url);
 			HttpURLConnection con = (HttpURLConnection) obj.openConnection();
