@@ -63,6 +63,8 @@ public class HttpURLConnectionExample {
 			URL obj = new URL(url);
 			HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
+			final String POST_PARAMS = "grant_type=client_credentials";
+			
 			//add reuqest header
 			con.setRequestMethod("POST");
 			con.setRequestProperty("User-Agent", USER_AGENT);
@@ -70,18 +72,18 @@ public class HttpURLConnectionExample {
 			String encoding = getEncodedKeys();
 			con.setRequestProperty  ("Authorization", "Basic " + encoding);
 			
-			String urlParameters = "sn=C02G8416DRJM&cn=&locale=&caller=&num=12345";
+			//String urlParameters = "sn=C02G8416DRJM&cn=&locale=&caller=&num=12345";
 			
 			// Send post request
 			con.setDoOutput(true);
 			DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-			wr.writeBytes(urlParameters);
+			wr.writeBytes(POST_PARAMS);
 			wr.flush();
 			wr.close();
 
 			int responseCode = con.getResponseCode();
 			System.out.println("\nSending 'POST' request to URL : " + url);
-			System.out.println("Post parameters : " + urlParameters);
+			//System.out.println("Post parameters : " + urlParameters);
 			System.out.println("Response Code : " + responseCode);
 
 			BufferedReader in = new BufferedReader(
@@ -101,7 +103,7 @@ public class HttpURLConnectionExample {
 		
 		static String getEncodedKeys() {
 		    String consumerKey =  "arKJFzlJIw8yhgcpvsdSyUmIS";
-		    String consumerSecretKey = "YFkCOJBF5ADIljXGN1ZlZNpi91i2c2Sv8AacZPYJqQuBbifFjO\r\n";
+		    String consumerSecretKey = "YFkCOJBF5ADIljXGN1ZlZNpi91i2c2Sv8AacZPYJqQuBbifFjO";
 		    String concatenation = consumerKey + ":" +consumerSecretKey;
 		    byte [] encodedBytes = Base64.getEncoder().encode(concatenation.getBytes());
 		    return new String(encodedBytes);
