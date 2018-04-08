@@ -25,7 +25,7 @@ public class TwitterAPIHandler {
 		    for(String s:tweets) {
 		        wordList.addAll(Arrays.asList(s.split(" ")));
 		    }
-		    input = filterWords(wordList, "nasa");
+		    input = filterWords(wordList, searchQuery);
 		    System.out.println(input);
 		    return(wordCloud(input));
 		} catch(Exception e) {
