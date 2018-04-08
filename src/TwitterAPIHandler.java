@@ -14,19 +14,17 @@ public class TwitterAPIHandler {
 
 	private static final String USER_AGENT = "Mozilla/5.0";
 
-	public static void main(String[] args) throws Exception {	    
+	public static String getWordCloud(String searchQuery) throws Exception {	    
 	    System.out.println(getEncodedKeys());
 	    String token = authenticate();
-	    ArrayList<String> tweets = searchTwitter("NASA",token);
-	    //String allWordsInTweet = searchTwitter("nasa",token).replaceAll("\r", "").replaceAll("\n", "");
+	    ArrayList<String> tweets = searchTwitter(searchQuery.toLowerCase(),token);
 	    ArrayList<String> wordList = new ArrayList<>();
-	    //System.out.println(allWordsInTweet);
 	    for(String s:tweets) {
 	        wordList.addAll(Arrays.asList(s.split(" ")));
 	    }
 	    String input = filterWords(wordList, "nasa");
 	    System.out.println(input);
-	    System.out.println(wordCloud(input));
+	    return(wordCloud(input));
 	}
 	
 	static String filterWords(ArrayList<String> words, String searchWord) {
@@ -120,12 +118,6 @@ public class TwitterAPIHandler {
 			for(String key:headers.keySet()) {
 			    con.setRequestProperty(key, headers.get(key));
 			}
-			//add reuqest header
-			/*con.setRequestMethod("POST");
-			con.setRequestProperty("User-Agent", USER_AGENT);
-			con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
-			
-*/
 			
 			// Send post request
 			con.setDoOutput(true);
