@@ -14,17 +14,24 @@ public class TwitterAPIHandler {
 
 	private static final String USER_AGENT = "Mozilla/5.0";
 
-	public static String getWordCloud(String searchQuery) throws Exception {	    
-	    System.out.println(getEncodedKeys());
-	    String token = authenticate();
-	    ArrayList<String> tweets = searchTwitter(searchQuery.toLowerCase(),token);
-	    ArrayList<String> wordList = new ArrayList<>();
-	    for(String s:tweets) {
-	        wordList.addAll(Arrays.asList(s.split(" ")));
-	    }
-	    String input = filterWords(wordList, "nasa");
-	    System.out.println(input);
-	    return(wordCloud(input));
+	public static String getWordCloud(String searchQuery){	  
+		String input = "";
+		try {
+			
+		    System.out.println(getEncodedKeys());
+		    String token = authenticate();
+		    ArrayList<String> tweets = searchTwitter(searchQuery.toLowerCase(),token);
+		    ArrayList<String> wordList = new ArrayList<>();
+		    for(String s:tweets) {
+		        wordList.addAll(Arrays.asList(s.split(" ")));
+		    }
+		    input = filterWords(wordList, "nasa");
+		    System.out.println(input);
+		    return(wordCloud(input));
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	   return "";
 	}
 	
 	static String filterWords(ArrayList<String> words, String searchWord) {

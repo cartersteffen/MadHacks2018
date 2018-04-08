@@ -1,0 +1,42 @@
+body {
+    background-color: #1dcaff;
+}
+
+h1 {
+  color: white;
+  text-align: center;
+  font-family: 'Pacifico', Arial;
+  font-weight: 1800;
+  font-size: 70px;
+  text-shadow: 2px 2px #000;
+}
+
+form {
+  margin: 0 auto;
+  width:250px;
+
+}
+
+label {
+  font-size: 18px;
+  color: black;
+  border: 1px 1px black;
+}
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+}
+
+input[type=text], select, textarea{
+  width: 75%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: vertical;
+}
