@@ -31,7 +31,7 @@ public class TwitterAPIHandler {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-	   return "";
+	   return "Exception";
 	}
 	
 	static String filterWords(ArrayList<String> words, String searchWord) {
