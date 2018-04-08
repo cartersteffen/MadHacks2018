@@ -14,17 +14,38 @@ public class TwitterAPIHandler {
 
 	private static final String USER_AGENT = "Mozilla/5.0";
 
-	public static void main(String[] args) throws Exception {
-	    
+	public static void main(String[] args) throws Exception {	    
 	    System.out.println(getEncodedKeys());
-	
 	    String token = authenticate();
-	    ArrayList<String> tweets = searchTwitter("nasa",token);
-	    
-	    System.out.println(tweets.size());
-	    wordCloud("bat cat cat cat cat rat rat rat rat mat mat mat");
-		/*for( String s:tweets)
-	    	System.out.println(s);*/
+	    ArrayList<String> tweets = searchTwitter("NASA",token);
+	    //String allWordsInTweet = searchTwitter("nasa",token).replaceAll("\r", "").replaceAll("\n", "");
+	    ArrayList<String> wordList = new ArrayList<>();
+	    //System.out.println(allWordsInTweet);
+	    for(String s:tweets) {
+	        wordList.addAll(Arrays.asList(s.split(" ")));
+	    }
+	    String input = filterWords(wordList, "nasa");
+	    System.out.println(input);
+	    System.out.println(wordCloud(input));
+	}
+	
+	static String filterWords(ArrayList<String> words, String searchWord) {
+	    for(int i = words.size() - 1; i>= 0; i--) {	        
+	        words.set(i, words.get(i).trim().replaceAll("[.(),':!-;&?\\\"]", "").toLowerCase());
+	        String word = words.get(i);
+	        if(word.length() < 4) {
+	            words.remove(i);
+	        } else if(word.contains("\n") || word.contains("@") || word.contains("#") || word.contains("http") ) {
+	            words.remove(i);
+	        } /*else if(word.contains(searchWord.toLowerCase())) {
+	            words.remove(i);
+	        }*/
+	    }
+	    String result = "";
+	    for(int i = 0; i < Math.min(35, words.size()); i++){
+	        result += words.get(i) + " ";
+	    }
+	    return result.trim();
 	}
 
 	/**
@@ -73,11 +94,13 @@ public class TwitterAPIHandler {
 			String prettyJsonString = gson.toJson(je);
 			*/
 			ArrayList<String> tweetTexts = new ArrayList<>();
+			//String result = "";
 			// System.out.println(myResponse.toString(4));
 			JSONArray tweets = myResponse.getJSONArray("statuses");
 			for(int i = 0; i < tweets.length(); i++) {
 				JSONObject tweet = tweets.getJSONObject(i);
 				tweetTexts.add(tweet.getString("text"));
+				//result += tweet.getString("text") + " ";
 			}
 			return tweetTexts;
 		}
@@ -156,10 +179,10 @@ public class TwitterAPIHandler {
 		TreeMap<String, String> map = new TreeMap<String, String>();
 		map.put("Content-Type","application/json");
 		map.put("Accept","application/json");
-		map.put("X-Mashape-Key", "3abWH3g9k7msh4H53vhImfzYWCwhp1FMOvAjsnkvDvXCI38GpB");
-		String POST_PARAMS = "\"{\\\"f_type\\\":\\\"png\\\",\\\"width\\\":800,\\\"height\\\":500,\\\"s_max\\\":\\\"7\\\",\\\"s_min\\\":\\\"1\\\",\\\"f_min\\\":1,\\\"r_color\\\":\\\"TRUE\\\",\\\"r_order\\\":\\\"TRUE\\\",\\\"s_fit\\\":\\\"FALSE\\\",\\\"fixed_asp\\\":\\\"TRUE\\\",\\\"rotate\\\":\\\"TRUE\\\",\\\"textblock\\\":"+words+"}\"";
-		postRequest(url, POST_PARAMS, map);
-		return "";
+		map.put("X-Mashape-Key", "5xO9bGO6iYmshEeDv8LLjp7dBIPrp1rbH3DjsnY1UlstlFAHRs");
+		String POST_PARAMS = "{\"f_type\":\"png\",\"width\":800,\"height\":500,\"s_max\":\"7\",\"s_min\":\"1\",\"f_min\":1,\"r_color\":\"TRUE\",\"r_order\":\"TRUE\",\"s_fit\":\"FALSE\",\"fixed_asp\":\"TRUE\",\"rotate\":\"TRUE\",\"textblock\":\""+words+"\"}";
+		JSONObject result = postRequest(url, POST_PARAMS, map);
+		return result.getString("url");
 	}
 		
 		static String getEncodedKeys() {
